@@ -6,36 +6,31 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
-import frc.robot.subsystems.VoltageDrivetrain;
+import frc.robot.subsystems.Gyro;
 
-public class VoltageDriveCommand extends Command {
-  VoltageDrivetrain drivetrain;
-  CommandXboxController joystick;
-  public VoltageDriveCommand(VoltageDrivetrain drivetrain, CommandXboxController joystick) {
-    addRequirements(drivetrain);
-    this.drivetrain = drivetrain;
-    this.joystick = joystick;
+public class GyroCommand extends Command {
+
+  private Gyro gyro = new Gyro();
+
+  public GyroCommand(Gyro gyro) {
+    addRequirements(gyro);
+    this.gyro = gyro;
   }
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {
-  }
+  public void initialize() {}
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    double throttle = drivetrain.applyDeadband(-joystick.getLeftY());
-    double rotation = drivetrain.applyDeadband(joystick.getRightX());
-
-    drivetrain.drive(throttle, rotation); 
+    SmartDashboard.putNumber("angle", gyro.getAngle());
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    drivetrain.stopAll();
+    gyro.resetGyro();
   }
 
   // Returns true when the command should end.

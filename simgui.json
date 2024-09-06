@@ -1,5 +1,10 @@
 {
   "HALProvider": {
+    "DIO": {
+      "window": {
+        "visible": true
+      }
+    },
     "Encoders": {
       "0": {
         "header": {
@@ -13,6 +18,13 @@
       },
       "window": {
         "visible": true
+      }
+    },
+    "Other Devices": {
+      "XRPGyro": {
+        "header": {
+          "open": true
+        }
       }
     }
   },

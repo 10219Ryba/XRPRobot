@@ -4,11 +4,15 @@
 
 package frc.robot;
 
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.commands.ArmNinety;
 import frc.robot.commands.ArmOneEight;
+import frc.robot.commands.DriveDistance;
+import frc.robot.commands.PIDDriveCommand;
 import frc.robot.commands.VoltageDriveCommand;
+import frc.robot.subsystems.PIDDrivetrain;
 import frc.robot.subsystems.VoltageDrivetrain;
 import frc.robot.subsystems.XRPArm;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
@@ -21,17 +25,20 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
  */
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
-  private final VoltageDrivetrain voltDrive = new VoltageDrivetrain();
+  //private final VoltageDrivetrain voltDrive = new VoltageDrivetrain();
+  private final PIDDrivetrain drivetrain = new PIDDrivetrain();
   private final XRPArm armSubsystem = new XRPArm();
   CommandXboxController xbox1 = new CommandXboxController(0);
-  private final VoltageDriveCommand driveCommand = new VoltageDriveCommand(voltDrive, xbox1);
+  //private final VoltageDriveCommand driveCommand = new VoltageDriveCommand(voltDrive, xbox1);
   private final ArmNinety armNinety = new ArmNinety(armSubsystem);
   private final ArmOneEight armOneEight = new ArmOneEight(armSubsystem);
   
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
-  public RobotContainer() {
-    voltDrive.setDefaultCommand(driveCommand);
+  public RobotContainer() {   
+    //voltDrive.setDefaultCommand(driveCommand);
+    //drivetrain.setDefaultCommand(new PIDDriveCommand(drivetrain, xbox1));
+    //gyro.setDefaultCommand(gyroCommand);
     configureButtonBindings();
   }
 
@@ -42,6 +49,7 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
+    xbox1.y().onTrue(new DriveDistance(drivetrain, Units.feetToMeters(10), 1));
     xbox1.a().onTrue(armNinety);
     xbox1.b().onTrue(armOneEight);
   }
