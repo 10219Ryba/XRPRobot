@@ -25,12 +25,16 @@ public class PIDDrivetrain extends SubsystemBase {
   private final PIDController leftPID = new PIDController(0, 0, 0);
   private final PIDController rightPID = new PIDController(0, 0, 0);
   private DifferentialDriveWheelSpeeds diffDriveSpeed = new DifferentialDriveWheelSpeeds();
-  private final DifferentialDriveKinematics diffDriveKinematics = new DifferentialDriveKinematics(Units.inchesToMeters(6.125));
-  private final double maxSpeedInMPS = Units.feetToMeters(10/4.5);
-  private final double maxRotationInRadians = 1 * Math.PI;
+  private final DifferentialDriveKinematics diffDriveKinematics = new DifferentialDriveKinematics(
+      Units.inchesToMeters(6.125));
+  private final double maxSpeedInMPS = Units.feetToMeters(10 / 4.5);
+  private final double maxRotationInRadians = 2 * Math.PI;
+
   public PIDDrivetrain() {
-    leftEncoder.setDistancePerPulse((Math.PI * Units.inchesToMeters(Constants.kWheelDiameterInch)) / Constants.kCountsPerRevolution);
-    rightEncoder.setDistancePerPulse((Math.PI * Units.inchesToMeters(Constants.kWheelDiameterInch)) / Constants.kCountsPerRevolution);
+    leftEncoder.setDistancePerPulse(
+        (Math.PI * Units.inchesToMeters(Constants.kWheelDiameterInch)) / Constants.kCountsPerRevolution);
+    rightEncoder.setDistancePerPulse(
+        (Math.PI * Units.inchesToMeters(Constants.kWheelDiameterInch)) / Constants.kCountsPerRevolution);
     resetEncoders();
     leftMotor.setInverted(false);
     rightMotor.setInverted(true);
@@ -39,24 +43,28 @@ public class PIDDrivetrain extends SubsystemBase {
     SmartDashboard.putNumber("leftP", 6);
     SmartDashboard.putNumber("rightP", 6);
   }
+
   public void drive(double throttle, double rotation) {
     leftPID.setP(SmartDashboard.getNumber("leftP", 6));
     rightPID.setP(SmartDashboard.getNumber("rightP", 6));
     SmartDashboard.putNumber("Gyro Angle", getHeading());
-    diffDriveSpeed = diffDriveKinematics.toWheelSpeeds(new ChassisSpeeds(throttle *maxSpeedInMPS, 0, rotation *maxRotationInRadians));
-    double leftPIDOutput = leftPID.calculate(leftEncoder.getRate() , diffDriveSpeed.leftMetersPerSecond);
-    double rightPIDOutput = rightPID.calculate(rightEncoder.getRate() , diffDriveSpeed.rightMetersPerSecond);
+    diffDriveSpeed = diffDriveKinematics
+        .toWheelSpeeds(new ChassisSpeeds(throttle * maxSpeedInMPS, 0, rotation * maxRotationInRadians));
+    double leftPIDOutput = leftPID.calculate(leftEncoder.getRate(), diffDriveSpeed.leftMetersPerSecond);
+    double rightPIDOutput = rightPID.calculate(rightEncoder.getRate(), diffDriveSpeed.rightMetersPerSecond);
     SmartDashboard.putNumber("leftPIDOutput", leftPIDOutput);
     SmartDashboard.putNumber("rightPIDOutput", rightPIDOutput);
     leftMotor.setVoltage(leftPIDOutput);
     rightMotor.setVoltage(rightPIDOutput);
   }
+
   public double applyDeadband(double value) {
     if (Math.abs(value) < Constants.deadband) {
       return 0.0;
     }
     return value;
   }
+
   public void stopAll() {
     leftMotor.setVoltage(0);
     rightMotor.setVoltage(0);
@@ -66,21 +74,27 @@ public class PIDDrivetrain extends SubsystemBase {
     leftEncoder.reset();
     rightEncoder.reset();
   }
+
   public double getLeftRate() {
     return leftEncoder.getRate();
   }
+
   public double getRightRate() {
     return rightEncoder.getRate();
   }
+
   public double getDistance() {
     return leftEncoder.getDistance();
   }
+
   public void resetGyro() {
     gyro.reset();
   }
+
   public double getHeading() {
     return gyro.getAngle();
   }
+
   @Override
   public void periodic() {
     // This method will be called once per scheduler run

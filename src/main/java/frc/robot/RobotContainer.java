@@ -11,6 +11,7 @@ import frc.robot.commands.ArmNinety;
 import frc.robot.commands.ArmOneEight;
 import frc.robot.commands.DriveDistance;
 import frc.robot.commands.PIDDriveCommand;
+import frc.robot.commands.TurnDegrees;
 import frc.robot.commands.VoltageDriveCommand;
 import frc.robot.subsystems.PIDDrivetrain;
 import frc.robot.subsystems.VoltageDrivetrain;
@@ -18,40 +19,45 @@ import frc.robot.subsystems.XRPArm;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 
 /**
- * This class is where the bulk of the robot should be declared. Since Command-based is a
- * "declarative" paradigm, very little robot logic should actually be handled in the {@link Robot}
- * periodic methods (other than the scheduler calls). Instead, the structure of the robot (including
+ * This class is where the bulk of the robot should be declared. Since
+ * Command-based is a
+ * "declarative" paradigm, very little robot logic should actually be handled in
+ * the {@link Robot}
+ * periodic methods (other than the scheduler calls). Instead, the structure of
+ * the robot (including
  * subsystems, commands, and button mappings) should be declared here.
  */
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
-  //private final VoltageDrivetrain voltDrive = new VoltageDrivetrain();
+  // private final VoltageDrivetrain voltDrive = new VoltageDrivetrain();
   private final PIDDrivetrain drivetrain = new PIDDrivetrain();
   private final XRPArm armSubsystem = new XRPArm();
   CommandXboxController xbox1 = new CommandXboxController(0);
-  //private final VoltageDriveCommand driveCommand = new VoltageDriveCommand(voltDrive, xbox1);
+  // private final VoltageDriveCommand driveCommand = new
+  // VoltageDriveCommand(voltDrive, xbox1);
   private final ArmNinety armNinety = new ArmNinety(armSubsystem);
   private final ArmOneEight armOneEight = new ArmOneEight(armSubsystem);
-  
 
-  /** The container for the robot. Contains subsystems, OI devices, and commands. */
-  public RobotContainer() {   
-    //voltDrive.setDefaultCommand(driveCommand);
-    //drivetrain.setDefaultCommand(new PIDDriveCommand(drivetrain, xbox1));
-    //gyro.setDefaultCommand(gyroCommand);
+  /**
+   * The container for the robot. Contains subsystems, OI devices, and commands.
+   */
+  public RobotContainer() {
+    drivetrain.setDefaultCommand(new PIDDriveCommand(drivetrain, xbox1));
     configureButtonBindings();
   }
 
   /**
-   * Use this method to define your button->command mappings. Buttons can be created by
-   * instantiating a {@link edu.wpi.first.wpilibj.GenericHID} or one of its subclasses ({@link
-   * edu.wpi.first.wpilibj.Joystick} or {@link XboxController}), and then passing it to a {@link
+   * Use this method to define your button->command mappings. Buttons can be
+   * created by
+   * instantiating a {@link edu.wpi.first.wpilibj.GenericHID} or one of its
+   * subclasses ({@link
+   * edu.wpi.first.wpilibj.Joystick} or {@link XboxController}), and then passing
+   * it to a {@link
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
     xbox1.y().onTrue(new DriveDistance(drivetrain, Units.feetToMeters(10), 1));
-    xbox1.a().onTrue(armNinety);
-    xbox1.b().onTrue(armOneEight);
+    xbox1.a().onTrue(new TurnDegrees(drivetrain, Units.degreesToRadians(90), 1));
   }
 
   /**
@@ -60,7 +66,7 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   // public Command getAutonomousCommand() {
-  //   // An ExampleCommand will run in autonomous
-  //   return m_autoCommand;
+  // // An ExampleCommand will run in autonomous
+  // return m_autoCommand;
   // }
 }
