@@ -5,7 +5,7 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.Encoder;
-
+import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.xrp.XRPMotor;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -25,13 +25,15 @@ public class VoltageDrivetrain extends SubsystemBase {
     SmartDashboard.putNumber("leftEncoder", getLeftRate());
     SmartDashboard.putNumber("rightEncoder", getRightRate());
   }
+  public final DifferentialDrive diffDrive =
+     new DifferentialDrive(leftMotor::set, rightMotor::set);
 
   public void drive(double throttle, double rotation) {
-    double leftVoltage = 12*(throttle + rotation);
-    leftMotor.setVoltage(leftVoltage);
-    double rightVoltage = 11.5*(throttle - rotation);
-    rightMotor.setVoltage(rightVoltage);
-
+    // double leftVoltage = 12*(throttle + rotation);
+    // leftMotor.setVoltage(leftVoltage);
+    // double rightVoltage = 11.5*(throttle - rotation);
+    // rightMotor.setVoltage(rightVoltage);
+    //diffDrive.arcadeDrive(throttle, rotation);
   }
 
   public double applyDeadband(double value) {
