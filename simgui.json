@@ -49,9 +49,6 @@
   "NetworkTables": {
     "retained": {
       "SmartDashboard": {
-        "SendableChooser[0]": {
-          "open": true
-        },
         "open": true
       }
     },

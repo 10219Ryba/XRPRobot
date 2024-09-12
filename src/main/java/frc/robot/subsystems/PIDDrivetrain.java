@@ -28,7 +28,7 @@ public class PIDDrivetrain extends SubsystemBase {
   private final DifferentialDriveKinematics diffDriveKinematics = new DifferentialDriveKinematics(
       Units.inchesToMeters(6.125));
   private final double maxSpeedInMPS = Units.feetToMeters(10 / 4.5);
-  private final double maxRotationInRadians = 2 * Math.PI;
+  private final double maxRotationInRadians = 3.5 * Math.PI;
 
   public PIDDrivetrain() {
     leftEncoder.setDistancePerPulse(
@@ -42,6 +42,7 @@ public class PIDDrivetrain extends SubsystemBase {
     SmartDashboard.putNumber("rightEncoder", getRightRate());
     SmartDashboard.putNumber("leftP", 6);
     SmartDashboard.putNumber("rightP", 6);
+    leftPID.setTolerance(maxRotationInRadians);
   }
 
   public void drive(double throttle, double rotation) {
@@ -92,7 +93,7 @@ public class PIDDrivetrain extends SubsystemBase {
   }
 
   public double getHeading() {
-    return gyro.getAngle();
+    return gyro.getAngleZ();
   }
 
   @Override

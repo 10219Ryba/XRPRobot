@@ -47,6 +47,8 @@ public class RobotContainer {
   public RobotContainer() {
     drivetrain.setDefaultCommand(new PIDDriveCommand(drivetrain, xbox1));
     configureButtonBindings();
+    autoChooser.addOption("yes", armNinety);
+    autoChooser.addOption("yes2", armOneEight);
     SmartDashboard.putData(autoChooser);
   }
 

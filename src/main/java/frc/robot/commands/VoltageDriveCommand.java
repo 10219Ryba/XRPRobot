@@ -30,7 +30,7 @@ public class VoltageDriveCommand extends Command {
     double rotation = drivetrain.applyDeadband(joystick.getRightX());
 
     drivetrain.drive(throttle, rotation); 
-  }
+  }                                                                 
 
   // Called once the command ends or is interrupted.
   @Override

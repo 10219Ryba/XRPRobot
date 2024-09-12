@@ -39,6 +39,8 @@ public class TurnDegrees extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
+    //return Math.abs(drivetrain.getHeading()) == setpoint || Math.abs(drivetrain.getHeading()) <= (setpoint + 5)   || Math.abs(drivetrain.getHeading()) >= setpoint - 5;
+    //return (Math.abs(drivetrain.getHeading()) >= setpoint && Math.abs(drivetrain.getHeading()) <= setpoint + 5);
     return Math.abs(drivetrain.getHeading()) >= setpoint;
   }
 }
